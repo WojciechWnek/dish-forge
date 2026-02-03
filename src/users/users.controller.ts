@@ -9,10 +9,12 @@ import {
   Post,
   Put,
   Query,
+  UseGuards,
   ValidationPipe,
 } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UsersService } from './users.service';
+import { AdminGuard } from 'src/admin/admin.guard';
 
 @Controller('users')
 export class UsersController {
@@ -33,6 +35,7 @@ export class UsersController {
   }
 
   @Post()
+  @UseGuards(AdminGuard)
   createUser(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     return this.usersService.createUser(createUserDto);
   }
